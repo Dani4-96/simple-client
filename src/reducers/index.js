@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
 
-export default combineReducers({
+import users from './users';
+import statistics from './statistics';
 
+export default combineReducers({
+    users,
+    statistics,
 });

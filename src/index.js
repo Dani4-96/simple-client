@@ -8,7 +8,7 @@ import { HashRouter as Router } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors';
 
-import App from './App';
+import App from './components/App';
 import rootReducer from './reducers';
 
 const theme = createMuiTheme({
