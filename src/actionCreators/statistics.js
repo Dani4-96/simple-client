@@ -31,11 +31,13 @@ export const addNote = (entity, body, userId) => dispatch => {
             type: actionTypes.ADD_NOTE_SUCCESS,
             payload: json,
         })
-    ).catch(ex =>
-        dispatch({
-            type: actionTypes.ADD_NOTE_FAIL,
-            payload: ex,
-        })
+    ).then(
+        () => loadStatistics(userId),
+        ex =>
+            dispatch({
+                type: actionTypes.ADD_NOTE_FAIL,
+                payload: ex,
+            })
     );
 };
 

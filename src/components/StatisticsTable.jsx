@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
 const styles = {
 
@@ -18,14 +19,17 @@ const StatisticsTable = ({classes, type, entities, userId, color, deleteNote}) =
                 </TableRow>
             </TableHead>
             <TableBody>
-                {entities.map(entity => (
-                    <TableRow key={entity.id}>
-                        <TableCell>{entity.date}</TableCell>
-                        <TableCell>{entity.description}</TableCell>
-                        <TableCell style={{color: color}} numeric>{entity.amount}</TableCell>
-                        <TableCell><Button onClick={() => deleteNote(type, entity.id, userId)}>Delete</Button></TableCell>
-                    </TableRow>
-                ))}
+                {entities.map(entity => {
+                    const color = entity.amount.search('-') === -1 ? 'green' : 'red';
+                    return (
+                        <TableRow key={entity.id}>
+                            <TableCell>{moment(entity.date, "DD-MM-YYYY HH:mm:ss")}</TableCell>
+                            <TableCell>{entity.description}</TableCell>
+                            <TableCell style={{color: color}} numeric>{entity.amount}</TableCell>
+                            <TableCell><Button onClick={() => deleteNote(type, entity.id, userId)}>Delete</Button></TableCell>
+                        </TableRow>
+                    )}
+                )}
             </TableBody>
         </Table>
     </Paper>

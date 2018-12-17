@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import {CssBaseline, AppBar, Toolbar, Typography } from "@material-ui/core";
@@ -23,7 +24,7 @@ class App extends Component {
                     <Toolbar>
                         <Menu users={users} loading={loading} loadStatistics={loadStatistics} />
                         <Typography variant="h6" color="inherit">
-                            App
+                            Home accounting
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -46,4 +47,4 @@ export default connect(
             error: state.users.error
         }),
     { loadUsers, loadStatistics }
-)(App);
+)(hot(module)(App));
