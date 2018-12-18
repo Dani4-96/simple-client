@@ -15,18 +15,19 @@ const StatisticsTable = ({classes, type, entities, userId, color, deleteNote}) =
                     <TableCell>Date</TableCell>
                     <TableCell>Description</TableCell>
                     <TableCell numeric>Amount</TableCell>
-                    <TableCell>Action</TableCell>
+                    {type === 'common' ? null : <TableCell>Action</TableCell>}
                 </TableRow>
             </TableHead>
             <TableBody>
                 {entities.map(entity => {
-                    const color = entity.amount.search('-') === -1 ? 'green' : 'red';
+                    const color = entity.amount.toString().search('-') === -1 ? 'green' : 'red';
+
                     return (
                         <TableRow key={entity.id}>
-                            <TableCell>{moment(entity.date, "DD-MM-YYYY HH:mm:ss")}</TableCell>
+                            <TableCell>{moment(entity.date, "DD-MM-YYYY HH:mm:ss").format("DD-MM-YYYY HH:mm:ss")}</TableCell>
                             <TableCell>{entity.description}</TableCell>
                             <TableCell style={{color: color}} numeric>{entity.amount}</TableCell>
-                            <TableCell><Button onClick={() => deleteNote(type, entity.id, userId)}>Delete</Button></TableCell>
+                            {type === 'common' ? null : <TableCell><Button onClick={() => deleteNote(type, entity.id, userId)}>Delete</Button></TableCell>}
                         </TableRow>
                     )}
                 )}

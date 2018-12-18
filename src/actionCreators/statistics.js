@@ -12,7 +12,7 @@ export const loadStatistics = userId => dispatch => {
     ]).then(json =>
         dispatch({
             type: actionTypes.LOAD_STATISTICS_SUCCESS,
-            payload: { json, userId: userId },
+            payload: { json, userId },
         })
     ).catch(ex =>
         dispatch({
@@ -32,7 +32,7 @@ export const addNote = (entity, body, userId) => dispatch => {
             payload: json,
         })
     ).then(
-        () => loadStatistics(userId),
+        () => dispatch(loadStatistics(userId)),
         ex =>
             dispatch({
                 type: actionTypes.ADD_NOTE_FAIL,
@@ -51,7 +51,7 @@ export const deleteNote = (entity, id, userId) => dispatch => {
             payload: json,
         })
     ).then(
-        () => loadStatistics(userId),
+        () => dispatch(loadStatistics(userId)),
         ex =>
             dispatch({
                 type: actionTypes.DELETE_NOTE_FAIL,

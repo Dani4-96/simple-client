@@ -14,7 +14,7 @@ class AddForm extends Component {
     };
 
     render() {
-        const { addNote, userId } = this.props;
+        const { addNote, userId, type } = this.props;
         const body = {
             description: this.state.description,
             amount: this.state.amount,
@@ -34,7 +34,7 @@ class AddForm extends Component {
                     onChange={this.handleChange('amount')}
                     margin="normal"
                 />
-                <Button onClick={() => addNote('bills', body, userId)}>Add</Button>
+                <Button onClick={() => addNote(type, body, userId)}>Add</Button>
             </div>
         )
     };

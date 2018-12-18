@@ -32,7 +32,7 @@ export default (statisticsState = defaultState, action) => {
             return statisticsState
                 .set('loading', false)
                 .set('loaded', true)
-                .set('userId', )
+                .set('userId', payload.userId)
                 .set('bills', List(payload.json[0].map(EntityRecord)))
                 .set('salary', List(payload.json[1].map(EntityRecord)))
                 .set('shopping', List(payload.json[2].map(EntityRecord)));
