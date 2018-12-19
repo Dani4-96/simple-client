@@ -1,14 +1,26 @@
 import React from 'react';
-import { Paper, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@material-ui/core';
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    Button,
+    Typography,
+    IconButton,
+} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
+import DeleteIcon from '@material-ui/icons/DeleteForever';
 
 const styles = {
 
 };
 
-const StatisticsTable = ({classes, type, entities, userId, color, deleteNote}) => (
+const StatisticsTable = ({classes, type, entities, userId, color, cash, deleteNote}) => (
     <Paper>
+        {cash && <Typography>Total amount: {cash}</Typography>}
         <Table>
             <TableHead>
                 <TableRow>
@@ -27,7 +39,11 @@ const StatisticsTable = ({classes, type, entities, userId, color, deleteNote}) =
                             <TableCell>{moment(entity.date, "DD-MM-YYYY HH:mm:ss").format("DD-MM-YYYY HH:mm:ss")}</TableCell>
                             <TableCell>{entity.description}</TableCell>
                             <TableCell style={{color: color}} numeric>{entity.amount}</TableCell>
-                            {type === 'common' ? null : <TableCell><Button onClick={() => deleteNote(type, entity.id, userId)}>Delete</Button></TableCell>}
+                            {type === 'common' ? null : <TableCell>
+                                <IconButton onClick={() => deleteNote(type, entity.id, userId)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </TableCell>}
                         </TableRow>
                     )}
                 )}

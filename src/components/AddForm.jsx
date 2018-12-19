@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import { TextField, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+    container: {
+        marginLeft: 'auto',
+    },
+};
 
 class AddForm extends Component {
     state = {
@@ -17,7 +24,7 @@ class AddForm extends Component {
         const { addNote, userId, type } = this.props;
         const body = {
             description: this.state.description,
-            amount: this.state.amount,
+            amount: type === 'salary' ? this.state.amount: -this.state.amount,
         };
 
         return (
@@ -40,4 +47,4 @@ class AddForm extends Component {
     };
 }
 
-export default AddForm;
+export default withStyles(styles)(AddForm);

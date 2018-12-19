@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { List } from 'immutable';
 import moment from 'moment';
 
 import { addNote, deleteNote } from '../actionCreators/statistics';
@@ -31,46 +32,59 @@ class Statistics extends Component {
             .sortBy(v => moment(v.date).unix())
             .reverse();
 
-        const a = common.map(v => ({
-            id: v.id,
-            description: v.description,
-            amount: v.amount,
-            date: moment(v.date).format('DD-MM-YYYY'),
-            userId: v.userId,
-        }))
-
-            .groupBy(v => v.date)
-            .map(v => v.reduce((acc, val) => acc + val.amount, 0));
-
-
-        const h = (arr, fn) => {
-            return arr.reduce(function (prev, current) {
-                return prev.concat(fn(current));
-            }, []);
-        };
-
-
-        const b = a.reduce((acc, val) => acc + val)
-          //const b = a.reduce((acc, val) => acc + val)
-         //const b = a.map((v, k, i) => v + i[k])
-        console.log("LOG", b)
-
-
-
-        // const startDate = moment(common.last().get('date')).format('YYYY-MM-DD');
+        // const a = common.map(v => ({
+        //     id: v.id,
+        //     description: v.description,
+        //     amount: v.amount,
+        //     date: moment(v.date).format('DD-MM-YYYY'),
+        //     userId: v.userId,
+        // }))
         //
-        // const dateList = getDateArray(startDate, Date.now()).map(v => ({
-        //     date: moment(v).format('YYYY-MM-DD'),
-        //     amount: 0,
-        // }));
-        //
-        // dateList.forEach(listElement =>
-        //     common.forEach(entity =>
-        //         listElement.date === entity.date ? listElement.count = entity.count : entity));
-        //
-        // const labels = dateList.map(v => moment(v.date).format('DD.MM.YY'));
-        // const data = dateList.map(v => v.count);
+        //     .groupBy(v => v.date)
+        //     .map(v => v.reduce((acc, val) => acc + val.amount, 0));
 
+
+        // const h = (arr, fn) => {
+        //     return arr.reduce(function (prev, current) {
+        //         return prev.concat(fn(current));
+        //     }, []);
+        // };
+
+
+        // const b = a.reduce((acc, val) => acc + val)
+        //   const b = a.reduce((acc, val) => acc + val)
+        //  const b = a.map((v, k, i) => v + i[k])
+        // console.log("LOG", b)
+
+
+
+        const startDate = moment(common.first().get('date')).format('DD-MM-YYYY');
+
+        const dateList = getDateArray(startDate, Date.now()).map(v => ({
+            date: moment(v).format('DD-MM-YYYY'),
+            amount: 0,
+        }));
+
+        dateList.forEach(listElement =>
+            common.forEach(entity =>
+                listElement.date === entity.date ? listElement.amount = entity.amount : entity));
+
+        const chartLabels = dateList.map(v => moment(v.date));
+        const chartData = dateList.groupBy(v => v.date)
+            .map(v => v.reduce((acc, val) => acc + val.amount, 0))
+            .toList()
+            .reduce((acc, val, ind) => {
+                const oldValue = acc[ind - 1] ? acc[ind - 1] : 0;
+                const value = oldValue + val;
+                return acc.add(value);
+            }, List([]));
+
+        console.log('LABELS', chartLabels);
+        console.log('DATA', chartData);
+
+        const cash = common.reduce((acc, val) => acc + val);
+
+        console.log('CASH', cash)
 
         return (
             <div>
@@ -121,10 +135,11 @@ class Statistics extends Component {
                     <StatisticsTable
                         type="common"
                         entities={common}
+                        cash={cash}
                     />
                 </div>
                 <div className={classes.container}>
-                    {/*<Chart />*/}
+                    <Chart chartLabels={chartLabels} chartData={chartData} />
                 </div>
             </div>
         )
