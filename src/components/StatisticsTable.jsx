@@ -20,7 +20,7 @@ const styles = {
 
 const StatisticsTable = ({classes, type, entities, userId, color, cash, deleteNote}) => (
     <Paper>
-        {cash && <Typography>Total amount: {cash}</Typography>}
+        {cash && <Typography variant="h6">Total amount: {cash}</Typography>}
         <Table>
             <TableHead>
                 <TableRow>
@@ -36,7 +36,7 @@ const StatisticsTable = ({classes, type, entities, userId, color, cash, deleteNo
 
                     return (
                         <TableRow key={entity.id}>
-                            <TableCell>{moment(entity.date, "DD-MM-YYYY HH:mm:ss").format("DD-MM-YYYY HH:mm:ss")}</TableCell>
+                            <TableCell>{moment(entity.date).format("DD-MM-YYYY HH:mm:ss")}</TableCell>
                             <TableCell>{entity.description}</TableCell>
                             <TableCell style={{color: color}} numeric>{entity.amount}</TableCell>
                             {type === 'common' ? null : <TableCell>

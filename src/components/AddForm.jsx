@@ -4,7 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
     container: {
-        marginLeft: 'auto',
+        marginRight: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
     },
 };
 
@@ -21,27 +23,27 @@ class AddForm extends Component {
     };
 
     render() {
-        const { addNote, userId, type } = this.props;
+        const { classes, addNote, userId, type } = this.props;
         const body = {
             description: this.state.description,
             amount: type === 'salary' ? this.state.amount: -this.state.amount,
         };
 
         return (
-            <div>
+            <div className={classes.container}>
                 <TextField
-                    label="description"
+                    label="Description"
                     value={this.state.description}
                     onChange={this.handleChange('description')}
                     margin="normal"
                 />
                 <TextField
-                    label="amount"
+                    label="Amount"
                     value={this.state.amount}
                     onChange={this.handleChange('amount')}
                     margin="normal"
                 />
-                <Button onClick={() => addNote(type, body, userId)}>Add</Button>
+                <Button variant="contained" color="primary" onClick={() => addNote(type, body, userId)}>Add</Button>
             </div>
         )
     };
