@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Typography, LinearProgress } from '@material-ui/core';
+import { Typography, LinearProgress, Tabs, Tab } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { List } from 'immutable';
 import moment from 'moment';
@@ -26,6 +26,14 @@ const styles = {
 };
 
 class Statistics extends Component {
+    state = {
+        value: 0,
+    };
+
+    handleChange = (event, value) => {
+        this.setState({ value });
+    };
+
     render() {
         const { classes, bills, salary, shopping, userId, addNote, deleteNote, loading, loaded, error, location } = this.props;
 
@@ -79,11 +87,19 @@ class Statistics extends Component {
             cash = common.reduce((acc, val) => acc + val.amount, 0);
             console.log('CASH', cash)
         }
+        const { value } = this.state;
 
             return (
                 <div>
                     <div className={classes.container}>
                         <Typography variant="h4" className={classes.typography}>{location.pathname.replace('/', '')}</Typography>
+                        <Tabs value={value} onChange={this.handleChange}>
+                            <Tab label="Salary" />
+                            <Tab label="Bills" />
+                            <Tab label="Shopping" />
+                        </Tabs>
+                    </div>
+                    {value === 0 && <div className={classes.container}>
                         <Typography variant="h6" className={classes.typography}>Salary</Typography>
                         <StatisticsTable
                             userId={userId}
@@ -96,8 +112,8 @@ class Statistics extends Component {
                             addNote={addNote}
                             userId={userId}
                         />
-                    </div>
-                    <div className={classes.container}>
+                    </div>}
+                    {value === 1 && <div className={classes.container}>
                         <Typography variant="h6" className={classes.typography}>Bills</Typography>
                         <StatisticsTable
                             userId={userId}
@@ -110,8 +126,8 @@ class Statistics extends Component {
                             addNote={addNote}
                             userId={userId}
                         />
-                    </div>
-                    <div className={classes.container}>
+                    </div>}
+                    {value === 2 && <div className={classes.container}>
                         <Typography variant="h6" className={classes.typography}>Shopping</Typography>
                         <StatisticsTable
                             userId={userId}
@@ -124,7 +140,7 @@ class Statistics extends Component {
                             addNote={addNote}
                             userId={userId}
                         />
-                    </div>
+                    </div>}
                     <div className={classes.container}>
                         <Typography variant="h6" className={classes.typography}>Common</Typography>
                         <StatisticsTable
